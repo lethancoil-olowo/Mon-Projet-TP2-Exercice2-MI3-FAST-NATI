@@ -1,0 +1,22 @@
+@startuml
+actor Responsable
+participant "Interface de gestion" as UI
+participant "Gestion des séances" as GS
+database "Stockage des données" as DB
+
+Responsable -> UI : demander la création d'une séance
+UI --> Responsable : présenter le formulaire
+Responsable -> UI : saisir date, heures, matière, groupe,\nenseignant et salle
+UI -> GS : vérifier les informations et disponibilités
+GS -> DB : consulter disponibilités enseignant et salle
+DB --> GS : résultat de la vérification
+alt informations complètes et enseignant/salle disponibles
+  GS -> DB : enregistrer la séance
+  DB --> GS : confirmation de l'enregistrement
+  GS -> UI : confirmer la programmation
+  UI --> Responsable : afficher la confirmation
+else informations manquantes ou conflit
+  GS -> UI : signaler les informations manquantes ou le conflit
+  UI --> Responsable : demander une correction
+end
+@enduml

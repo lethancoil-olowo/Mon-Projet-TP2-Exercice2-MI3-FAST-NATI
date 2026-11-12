@@ -1,0 +1,61 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Etudiant {
+  - matricule : String
+  - nom : String
+  - prénom : String
+  - email : String
+}
+class Matiere {
+  - code : String
+  - libellé : String
+  - volumeHoraire : int
+}
+class GroupeTD {
+  - codeGroupe : String
+  - nom : String
+}
+class SeanceTD {
+  - idSeance : int
+  - date : Date
+  - heureDebut : Heure
+  - heureFin : Heure
+  + calculerDuree() : Durée
+}
+class Enseignant {
+  - idEnseignant : int
+  - nom : String
+  - prénom : String
+  - email : String
+}
+class Salle {
+  - idSalle : int
+  - nom : String
+  - capacité : int
+}
+class Presence {
+  - idPresence : int
+  - statut : StatutPresence
+  - remarque : String [0..1]
+  + changerStatut(statut) : void
+}
+
+Etudiant "0..*" -- "1" GroupeTD : appartient à
+SeanceTD "0..*" -- "1" Matiere : porte sur
+SeanceTD "0..*" -- "1" GroupeTD : concerne
+SeanceTD "0..*" -- "1" Enseignant : encadrée par
+SeanceTD "0..*" -- "1" Salle : se déroule dans
+Etudiant "1" -- "0..*" Presence : a pour relevés
+SeanceTD "1" -- "0..*" Presence : donne lieu à
+
+note bottom
+Hypothèses :
+- Chaque étudiant appartient à un seul groupe.
+- Une séance a exactement un encadrant, une matière,
+  un groupe et une salle.
+- L'encadrant est représenté par Enseignant ;
+  Responsable reste un acteur.
+- Au plus une Presence par couple étudiant-séance.
+end note
+@enduml

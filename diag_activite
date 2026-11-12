@@ -1,0 +1,16 @@
+@startuml
+start
+:Commencer la séance;
+:Vérifier la séance et le groupe concernés;
+:Accueillir les étudiants;
+:Relever les présences;
+if (Étudiant présent ?) then (oui)
+  :Enregistrer le statut « présent »;
+else (non)
+  :Enregistrer le statut « absent »;
+endif
+:Réaliser le TD;
+:Terminer la séance;
+:Produire ou mettre à jour le bilan des présences;
+stop
+@enduml
